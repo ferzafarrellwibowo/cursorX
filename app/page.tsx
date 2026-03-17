@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="relative overflow-hidden">
       <Navbar />
-      <Hero />
+      <Hero cursors={cursors} />
       <CursorGallery cursors={cursors} />
       <Footer />
     </main>
