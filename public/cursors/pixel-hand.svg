@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <filter id="pixelShadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <g filter="url(#pixelShadow)">
+    <!-- Finger 1 -->
+    <rect x="35" y="15" width="12" height="30" fill="#ffeaa7"/>
+    <rect x="35" y="15" width="12" height="30" fill="#fdcb6e" opacity="0.5"/>
+    <!-- Finger 2 -->
+    <rect x="50" y="10" width="12" height="35" fill="#ffeaa7"/>
+    <!-- Finger 3 -->
+    <rect x="65" y="15" width="12" height="30" fill="#ffeaa7"/>
+    <!-- Finger 4 -->
+    <rect x="80" y="22" width="12" height="23" fill="#ffeaa7"/>
+    <!-- Palm -->
+    <rect x="30" y="45" width="65" height="30" rx="4" fill="#ffeaa7"/>
+    <!-- Wrist -->
+    <rect x="40" y="75" width="40" height="30" rx="3" fill="#ffeaa7"/>
+    <!-- Thumb -->
+    <rect x="18" y="40" width="15" height="20" rx="3" fill="#fdcb6e"/>
+    <!-- Outlines -->
+    <rect x="35" y="15" width="12" height="30" stroke="#e17055" stroke-width="1.5" fill="none"/>
+    <rect x="50" y="10" width="12" height="35" stroke="#e17055" stroke-width="1.5" fill="none"/>
+    <rect x="65" y="15" width="12" height="30" stroke="#e17055" stroke-width="1.5" fill="none"/>
+    <rect x="80" y="22" width="12" height="23" stroke="#e17055" stroke-width="1.5" fill="none"/>
+    <rect x="30" y="45" width="65" height="30" rx="4" stroke="#e17055" stroke-width="1.5" fill="none"/>
+  </g>
+</svg>

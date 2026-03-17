@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <radialGradient id="novaGrad" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#fff"/>
+      <stop offset="30%" style="stop-color:#ffeaa7"/>
+      <stop offset="60%" style="stop-color:#fdcb6e"/>
+      <stop offset="100%" style="stop-color:#e17055"/>
+    </radialGradient>
+    <filter id="novaGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#fdcb6e" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <polygon points="60,5 68,45 108,45 75,68 88,108 60,82 32,108 45,68 12,45 52,45" fill="url(#novaGrad)" filter="url(#novaGlow)"/>
+  <circle cx="60" cy="58" r="12" fill="#fff" opacity="0.5"/>
+  <circle cx="60" cy="58" r="6" fill="#fff" opacity="0.7"/>
+  <!-- Sparkle rays -->
+  <line x1="60" y1="0" x2="60" y2="12" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+  <line x1="60" y1="108" x2="60" y2="118" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+  <line x1="2" y1="58" x2="14" y2="58" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+  <line x1="106" y1="58" x2="118" y2="58" stroke="#ffeaa7" stroke-width="1.5" opacity="0.5"/>
+</svg>

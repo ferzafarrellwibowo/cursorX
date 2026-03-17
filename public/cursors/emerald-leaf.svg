@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00b894"/>
+      <stop offset="100%" style="stop-color:#00cec9"/>
+    </linearGradient>
+    <filter id="leafGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00b894" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <path d="M60,15 Q95,30 95,65 Q95,100 60,110 Q25,100 25,65 Q25,30 60,15Z" fill="url(#leafGrad)" filter="url(#leafGlow)"/>
+  <path d="M60,25 Q60,65 60,105" stroke="#fff" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M42,50 Q60,55 60,55" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M78,50 Q60,55 60,55" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M38,70 Q60,75 60,75" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.4"/>
+  <path d="M82,70 Q60,75 60,75" stroke="#fff" stroke-width="1.5" fill="none" opacity="0.4"/>
+</svg>

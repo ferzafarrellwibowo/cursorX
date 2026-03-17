@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <radialGradient id="galaxyGrad" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#a29bfe"/>
+      <stop offset="50%" style="stop-color:#6c5ce7"/>
+      <stop offset="100%" style="stop-color:#2d1b69"/>
+    </radialGradient>
+    <filter id="galaxyGlow">
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#a29bfe" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <polygon points="20,10 20,100 45,75 70,110 85,100 60,65 90,65" fill="url(#galaxyGrad)" stroke="#a29bfe" stroke-width="2" filter="url(#galaxyGlow)"/>
+  <circle cx="35" cy="40" r="2" fill="#fff" opacity="0.9"/>
+  <circle cx="50" cy="55" r="1.5" fill="#dfe6e9" opacity="0.7"/>
+  <circle cx="42" cy="28" r="1" fill="#ffeaa7" opacity="0.8"/>
+  <circle cx="55" cy="42" r="1" fill="#fff" opacity="0.6"/>
+  <circle cx="30" cy="65" r="1.5" fill="#74b9ff" opacity="0.7"/>
+  <circle cx="45" cy="70" r="1" fill="#fd79a8" opacity="0.6"/>
+</svg>
