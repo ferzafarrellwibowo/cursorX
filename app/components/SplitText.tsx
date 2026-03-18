@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 interface SplitTextProps {
   text: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   className?: string;
   splitBy?: "chars" | "words";
   stagger?: number; // seconds

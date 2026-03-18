@@ -7,7 +7,7 @@ import { CATEGORIES, COLORS, CursorCategory, CursorColor, CursorData } from "../
 interface AdminPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddCursor: (cursor: Omit<CursorData, "id">) => CursorData;
+  onAddCursor: (cursor: Omit<CursorData, "id">) => Promise<CursorData> | CursorData;
   onDeleteCursor: (id: string) => void;
   customCursors: CursorData[];
   onLogout: () => void;
