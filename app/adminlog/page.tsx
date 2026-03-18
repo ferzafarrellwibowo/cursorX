@@ -14,8 +14,8 @@ export default function AdminPage() {
   const { customCursors, addCursor, deleteCursor } = useCursorStore();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  const handleLoginSuccess = (username: string, password: string) => {
-    return login(username, password);
+  const handleLoginSuccess = async (username: string, password: string) => {
+    return await login(username, password);
   };
 
   const handleCloseLogin = () => {

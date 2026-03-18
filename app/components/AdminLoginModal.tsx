@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 interface AdminLoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLogin: (username: string, password: string) => { success: boolean; error?: string };
+  onLogin: (username: string, password: string) => Promise<{ success: boolean; error?: string }> | { success: boolean; error?: string };
 }
 
 export default function AdminLoginModal({
@@ -44,10 +44,10 @@ export default function AdminLoginModal({
     setError("");
     setIsLoading(true);
 
-    // Simulate network delay
+    // Simulate network delay (optional, but keep for UI feel)
     await new Promise((r) => setTimeout(r, 600));
 
-    const result = onLogin(username, password);
+    const result = await onLogin(username, password);
     setIsLoading(false);
 
     if (result.success) {
