@@ -93,6 +93,8 @@ export default function CursorCard({
               src={cursor.image}
               alt={cursor.name}
               fill
+              sizes="(max-width: 640px) 80px, 96px"
+              loading="lazy"
               className="object-contain drop-shadow-[0_0_15px_rgba(139,92,246,0.15)]"
             />
           </div>

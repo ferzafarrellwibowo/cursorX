@@ -25,6 +25,8 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [visibleCount, setVisibleCount] = useState(24);
+
   const { isFavorite, toggleFavorite, isLoaded } = useFavorites();
 
   // Simulate loading
@@ -46,6 +48,17 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
       return matchesSearch && matchesCategory && matchesColor && matchesFavorite;
     });
   }, [cursors, searchQuery, selectedCategory, selectedColor, showFavoritesOnly, isFavorite]);
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [searchQuery, selectedCategory, selectedColor, showFavoritesOnly]);
+
+  const displayedCursors = filteredCursors.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 24);
+  };
 
   const handleViewDetail = (cursor: CursorData) => {
     setSelectedCursor(cursor);
@@ -122,18 +135,31 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-            {filteredCursors.map((cursor, index) => (
-              <CursorCard
-                key={cursor.id}
-                cursor={cursor}
-                isFavorite={isFavorite(cursor.id)}
-                onToggleFavorite={() => toggleFavorite(cursor.id)}
-                onViewDetail={() => handleViewDetail(cursor)}
-                index={index}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+              {displayedCursors.map((cursor, index) => (
+                <CursorCard
+                  key={cursor.id}
+                  cursor={cursor}
+                  isFavorite={isFavorite(cursor.id)}
+                  onToggleFavorite={() => toggleFavorite(cursor.id)}
+                  onViewDetail={() => handleViewDetail(cursor)}
+                  index={index}
+                />
+              ))}
+            </div>
+            
+            {visibleCount < filteredCursors.length && (
+              <div className="mt-12 flex justify-center">
+                <button
+                  onClick={handleLoadMore}
+                  className="px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                >
+                  Load More Cursors ({filteredCursors.length - visibleCount} remaining)
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

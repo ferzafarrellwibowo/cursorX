@@ -102,7 +102,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fadeIn"
+        className="absolute inset-0 bg-[#0a0a0f]/90 animate-fadeIn"
         onClick={onClose}
       />
 
@@ -195,6 +195,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                         alt="Cursor Speed Settings"
                         width={400}
                         height={200}
+                        loading="lazy"
                         className="w-full h-auto"
                       />
                     </div>
@@ -222,6 +223,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                         alt="Windows Sensitivity Settings"
                         width={400}
                         height={200}
+                        loading="lazy"
                         className="w-full h-auto"
                       />
                     </div>

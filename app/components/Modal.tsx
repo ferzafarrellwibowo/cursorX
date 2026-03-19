@@ -73,7 +73,7 @@ export default function Modal({
       {/* Backdrop */}
       <div
         ref={overlayRef}
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-fadeIn"
+        className="absolute inset-0 bg-[#0a0a0f]/90 animate-fadeIn"
         onClick={onClose}
       />
 
@@ -108,12 +108,13 @@ export default function Modal({
                 backgroundSize: "20px 20px",
               }}
             />
-            <div className="relative w-32 h-32 sm:w-40 sm:h-40 animate-floatSlow">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40">
               <Image
                 src={cursor.image}
                 alt={cursor.name}
                 fill
-                className="object-contain drop-shadow-[0_0_30px_rgba(139,92,246,0.2)]"
+                sizes="(max-width: 640px) 128px, 160px"
+                className="object-contain drop-shadow-xl"
               />
             </div>
           </div>
