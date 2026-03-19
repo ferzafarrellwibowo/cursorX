@@ -17,7 +17,7 @@ export function useAdmin() {
     // Check initial session
     const checkSession = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await supabase!.auth.getSession();
         if (session) {
           setIsLoggedIn(true);
         }
@@ -31,7 +31,7 @@ export function useAdmin() {
     checkSession();
 
     // Setup auth listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = supabase!.auth.onAuthStateChange(
       (_event, session) => {
         setIsLoggedIn(!!session);
       }
