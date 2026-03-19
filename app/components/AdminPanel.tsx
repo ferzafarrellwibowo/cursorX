@@ -32,6 +32,7 @@ export default function AdminPanel({
   const [creator, setCreator] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"add" | "manage">("add");
 
@@ -81,11 +82,36 @@ export default function AdminPanel({
     setCategory("Default");
     setColor("White");
     setCreator("");
+    setErrorMessage("");
+  };
+
+  // Check if Asset ID already exists
+  const isAssetIdDuplicate = (assetId: string): boolean => {
+    return customCursors.some(
+      (cursor) => cursor.imageId.toLowerCase() === assetId.toLowerCase()
+    );
+  };
+
+  // Validate Asset ID on blur
+  const handleAssetIdBlur = () => {
+    if (imageId && isAssetIdDuplicate(imageId)) {
+      setErrorMessage(`Asset ID "${imageId}" already exists. Please use a different Asset ID.`);
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Check for duplicate Asset ID
+    if (isAssetIdDuplicate(imageId)) {
+      setErrorMessage(`Asset ID "${imageId}" already exists. Please use a different Asset ID.`);
+      return;
+    }
+
     setIsSubmitting(true);
+    setErrorMessage("");
 
     await new Promise((r) => setTimeout(r, 500));
 
@@ -201,6 +227,16 @@ export default function AdminPanel({
               </div>
             )}
 
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="flex items-center gap-2 p-3 mb-6 rounded-xl bg-red-500/10 border border-red-500/20 animate-fadeInUp">
+                <svg className="w-4 h-4 text-red-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span className="text-sm text-red-400">{errorMessage}</span>
+              </div>
+            )}
+
             {activeTab === "add" ? (
               /* ── Add Cursor Form ── */
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -252,10 +288,18 @@ export default function AdminPanel({
                   <input
                     type="text"
                     value={imageId}
-                    onChange={(e) => setImageId(e.target.value)}
+                    onChange={(e) => {
+                      setImageId(e.target.value);
+                      if (errorMessage) setErrorMessage("");
+                    }}
+                    onBlur={handleAssetIdBlur}
                     placeholder="rbxassetid://123456789"
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-white/20 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 transition-all duration-300 text-sm font-mono"
+                    className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-white placeholder-white/20 focus:outline-none focus:ring-1 transition-all duration-300 text-sm font-mono ${
+                      errorMessage && imageId
+                        ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20"
+                        : "border-white/[0.08] focus:border-violet-500/50 focus:ring-violet-500/20"
+                    }`}
                   />
                 </div>
 
@@ -364,7 +408,7 @@ export default function AdminPanel({
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !name}
+                  disabled={isSubmitting || !name || !imageId || !!errorMessage}
                   className="w-full py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (

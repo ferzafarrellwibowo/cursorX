@@ -8,6 +8,12 @@ export function useAdmin() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    if (!supabase) {
+      console.warn("Supabase not configured. Admin auth disabled.");
+      setIsLoaded(true);
+      return;
+    }
+
     // Check initial session
     const checkSession = async () => {
       try {
@@ -38,6 +44,10 @@ export function useAdmin() {
 
   const login = useCallback(
     async (username: string, password: string): Promise<{ success: boolean; error?: string }> => {
+      if (!supabase) {
+        return { success: false, error: "Supabase not configured" };
+      }
+
       try {
         // We map the "admin" username to a dummy email for Supabase Auth
         const email = username === "admin" ? "admin@cursorx.local" : username;
@@ -65,6 +75,11 @@ export function useAdmin() {
   );
 
   const logout = useCallback(async () => {
+    if (!supabase) {
+      setIsLoggedIn(false);
+      return;
+    }
+
     try {
       await supabase.auth.signOut();
       setIsLoggedIn(false);

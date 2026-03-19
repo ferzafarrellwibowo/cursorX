@@ -10,6 +10,12 @@ export function useCursorStore() {
 
   // Fetch all cursors from Supabase
   const fetchCursors = useCallback(async () => {
+    if (!supabase) {
+      console.warn("Supabase not configured. Using empty cursor list.");
+      setIsLoaded(true);
+      return;
+    }
+
     try {
       const { data, error } = await supabase
         .from("cursors")
@@ -38,6 +44,11 @@ export function useCursorStore() {
 
     setCursors((prev) => [newCursor, ...prev]);
 
+    if (!supabase) {
+      console.warn("Supabase not configured. Cursor added locally only.");
+      return newCursor;
+    }
+
     try {
       // Send to Supabase
       const { data, error } = await supabase
@@ -65,6 +76,11 @@ export function useCursorStore() {
     async (id: string) => {
       // Optimistic update
       setCursors((prev) => prev.filter((c) => c.id !== id));
+
+      if (!supabase) {
+        console.warn("Supabase not configured. Cursor deleted locally only.");
+        return;
+      }
 
       try {
         const { error } = await supabase.from("cursors").delete().eq("id", id);
