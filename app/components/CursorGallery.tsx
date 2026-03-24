@@ -6,7 +6,6 @@ import { useFavorites } from "../hooks/useFavorites";
 import SearchBar from "./SearchBar";
 import CursorCard from "./CursorCard";
 import SkeletonCard from "./SkeletonCard";
-import Modal from "./Modal";
 
 interface CursorGalleryProps {
   cursors: CursorData[];
@@ -21,8 +20,6 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
     CursorColor | "All"
   >("All");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [selectedCursor, setSelectedCursor] = useState<CursorData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   const [visibleCount, setVisibleCount] = useState(24);
@@ -60,16 +57,6 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
     setVisibleCount((prev) => prev + 24);
   };
 
-  const handleViewDetail = (cursor: CursorData) => {
-    setSelectedCursor(cursor);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setSelectedCursor(null), 300);
-  };
-
   return (
     <section id="gallery" className="relative py-20 sm:py-28">
       {/* Section background accent */}
@@ -85,8 +72,8 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
             </span>
           </h2>
           <p className="text-white/30 text-sm sm:text-base max-w-lg mx-auto">
-            Browse our curated collection of Roblox cursors. Click on any cursor
-            to view details and copy the image ID.
+            Browse our curated collection of Roblox cursors. Use the Copy ID
+            button to get the asset ID instantly.
           </p>
         </div>
 
@@ -143,7 +130,6 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
                   cursor={cursor}
                   isFavorite={isFavorite(cursor.id)}
                   onToggleFavorite={() => toggleFavorite(cursor.id)}
-                  onViewDetail={() => handleViewDetail(cursor)}
                   index={index}
                 />
               ))}
@@ -153,7 +139,7 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
               <div className="mt-12 flex justify-center">
                 <button
                   onClick={handleLoadMore}
-                  className="px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                  className="px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-colors duration-200"
                 >
                   Load More Cursors ({filteredCursors.length - visibleCount} remaining)
                 </button>
@@ -162,17 +148,6 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
           </>
         )}
       </div>
-
-      {/* Modal */}
-      <Modal
-        cursor={selectedCursor}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        isFavorite={selectedCursor ? isFavorite(selectedCursor.id) : false}
-        onToggleFavorite={() =>
-          selectedCursor && toggleFavorite(selectedCursor.id)
-        }
-      />
     </section>
   );
 }
