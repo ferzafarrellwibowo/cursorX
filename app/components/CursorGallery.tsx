@@ -9,9 +9,10 @@ import SkeletonCard from "./SkeletonCard";
 
 interface CursorGalleryProps {
   cursors: CursorData[];
+  isLoaded?: boolean;
 }
 
-export default function CursorGallery({ cursors }: CursorGalleryProps) {
+export default function CursorGallery({ cursors, isLoaded: dataLoaded = false }: CursorGalleryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<
     CursorCategory | "All"
@@ -20,17 +21,10 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
     CursorColor | "All"
   >("All");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
   const [visibleCount, setVisibleCount] = useState(24);
 
-  const { isFavorite, toggleFavorite, isLoaded } = useFavorites();
-
-  // Simulate loading
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+  const { isFavorite, toggleFavorite, isLoaded: favoritesLoaded } = useFavorites();
 
   const filteredCursors = useMemo(() => {
     return cursors.filter((cursor) => {
@@ -93,7 +87,7 @@ export default function CursorGallery({ cursors }: CursorGalleryProps) {
         </div>
 
         {/* Grid */}
-        {isLoading || !isLoaded ? (
+        {!dataLoaded || !favoritesLoaded ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {Array.from({ length: 8 }).map((_, i) => (
               <SkeletonCard key={i} />

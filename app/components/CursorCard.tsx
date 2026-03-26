@@ -44,7 +44,7 @@ export default function CursorCard({
   const badgeClass = colorBgClasses[cursor.color] || "bg-gray-500/10 text-gray-400 border-gray-500/20";
 
   const copyAssetId = () => {
-    navigator.clipboard.writeText(cursor.id);
+    navigator.clipboard.writeText(cursor.imageId);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };

@@ -7,13 +7,13 @@ import Footer from "./components/Footer";
 import { useCursorStore } from "./hooks/useCursorStore";
 
 export default function Home() {
-  const { cursors } = useCursorStore();
+  const { cursors, isLoaded } = useCursorStore();
 
   return (
     <main className="relative overflow-hidden">
       <Navbar />
       <Hero cursors={cursors} />
-      <CursorGallery cursors={cursors} />
+      <CursorGallery cursors={cursors} isLoaded={isLoaded} />
       <Footer />
     </main>
   );
