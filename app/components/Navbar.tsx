@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import EDPICalculator from "./EDPICalculator";
+import FeedbackModal from "./FeedbackModal";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -45,13 +48,28 @@ export default function Navbar() {
             </Link>
 
             {/* Nav Links */}
-            <div className="flex items-center gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setIsCalculatorOpen(true)}
                 className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-white/70 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15] transition-all duration-300"
               >
                 <span className="hidden sm:inline">eDPI Calculator</span>
                 <span className="sm:hidden">eDPI</span>
+              </button>
+
+              {/* Feedback Button */}
+              <button
+                onClick={() => setIsFeedbackOpen(true)}
+                className="group"
+                title="Send Feedback"
+              >
+                <Image
+                  src="/SUPPic.png"
+                  alt="Feedback"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 brightness-0 invert opacity-70 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all duration-300"
+                />
               </button>
             </div>
           </div>
@@ -62,6 +80,12 @@ export default function Navbar() {
       <EDPICalculator
         isOpen={isCalculatorOpen}
         onClose={() => setIsCalculatorOpen(false)}
+      />
+
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={isFeedbackOpen}
+        onClose={() => setIsFeedbackOpen(false)}
       />
     </>
   );
