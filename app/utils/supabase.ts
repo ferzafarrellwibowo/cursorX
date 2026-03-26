@@ -1,14 +1,16 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://htynaxsqqzspuklhozmt.supabase.co";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0eW5heHNxcXpzcHVrbGhvem10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MzcyMjEsImV4cCI6MjA4OTMxMzIyMX0.s_XzHlMgE32aMVmwm_qdGWw4Riey-tqSsXAxRMczO7c";
+// Read Supabase configuration from environment only. Do NOT hardcode keys here.
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 let supabase: SupabaseClient | null = null;
 
 if (supabaseUrl && supabaseKey) {
   supabase = createClient(supabaseUrl, supabaseKey);
 } else {
-  console.warn("Supabase URL or Key is missing. Check your .env.local file.");
+  // In dev, warn the developer to create a .env.local based on .env.example
+  console.warn("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. See .env.example");
 }
 
 export { supabase };
