@@ -93,7 +93,9 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
   const calculateEDPI = () => {
     const dpiValue = parseFloat(dpi) || 0;
     const multiplier = getMultiplier();
-    return (multiplier * dpiValue).toFixed(2);
+    const result = multiplier * dpiValue;
+    // Remove trailing zeros (e.g., 800.00 → 800)
+    return result % 1 === 0 ? result.toString() : result.toFixed(2);
   };
 
   if (!isOpen) return null;
