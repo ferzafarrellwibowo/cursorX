@@ -36,7 +36,12 @@ export function useCursorStore() {
       }
       return null;
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : String(error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" && error !== null && "message" in error
+            ? (error as { message: string }).message
+            : JSON.stringify(error);
       console.error("Error fetching cursors from Supabase:", message);
       return null;
     }

@@ -8,9 +8,9 @@ export interface CursorData {
   creator: string;
 }
 
-export type CursorCategory = "Dot" | "Cross" | "Default" | "Misc";
+export type CursorCategory = "Dot" | "Cross" | "Circle" | "Misc";
 
-export const CATEGORIES: CursorCategory[] = ["Dot", "Cross", "Default", "Misc"];
+export const CATEGORIES: CursorCategory[] = ["Dot", "Cross", "Circle", "Misc"];
 
 export type CursorColor =
   | "Green"
@@ -20,7 +20,9 @@ export type CursorColor =
   | "Purple"
   | "Blue"
   | "Pink"
-  | "Black";
+  | "Black"
+  | "Orange"
+  | "Brown";
 
 export const COLORS: CursorColor[] = [
   "Green",
@@ -31,6 +33,8 @@ export const COLORS: CursorColor[] = [
   "Blue",
   "Pink",
   "Black",
+  "Orange",
+  "Brown",
 ];
 
 export const cursors: CursorData[] = [];

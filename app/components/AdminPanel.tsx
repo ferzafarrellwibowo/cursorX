@@ -27,7 +27,7 @@ export default function AdminPanel({
   const [imageUrl, setImageUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [imageId, setImageId] = useState("");
-  const [category, setCategory] = useState<CursorCategory>("Default");
+  const [category, setCategory] = useState<CursorCategory>("Circle");
   const [color, setColor] = useState<CursorColor>("White");
   const [creator, setCreator] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,7 +79,7 @@ export default function AdminPanel({
     setImageUrl("");
     setFileName("");
     setImageId("");
-    setCategory("Default");
+    setCategory("Circle");
     setColor("White");
     setCreator("");
     setErrorMessage("");

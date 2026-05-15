@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { CursorData } from "../data/cursors";
 
@@ -92,13 +91,12 @@ export default function CursorCard({
         <div className="relative aspect-square flex items-center justify-center p-8">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
           <div className="relative w-20 h-20 sm:w-24 sm:h-24 group-hover:scale-110 transition-transform duration-300 ease-out will-change-transform">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={cursor.image}
               alt={cursor.name}
-              fill
-              sizes="(max-width: 640px) 80px, 96px"
               loading="lazy"
-              className="object-contain"
+              className="w-full h-full object-contain"
             />
           </div>
         </div>

@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'tr.rbxcdn.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'assetdelivery.roblox.com',
+        pathname: '/**',
+      },
     ],
   },
 };

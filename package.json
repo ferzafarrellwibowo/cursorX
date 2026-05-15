@@ -21,16 +21,17 @@
     "playwright": "^1.58.2",
     "react": "19.2.3",
     "react-bits": "^1.0.5",
-    "react-dom": "19.2.3",
-    "sharp": "^0.34.5"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.7",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

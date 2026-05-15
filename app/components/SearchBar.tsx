@@ -170,7 +170,9 @@ export default function SearchBar({
                   col === 'Purple' ? 'bg-violet-500' :
                   col === 'Blue' ? 'bg-indigo-400' :
                   col === 'Pink' ? 'bg-pink-400' :
-                  col === 'Black' ? 'bg-black' : 'bg-transparent'
+                  col === 'Black' ? 'bg-black' :
+                  col === 'Orange' ? 'bg-orange-400' :
+                  col === 'Brown' ? 'bg-amber-700' : 'bg-transparent'
                 }`} />
                 {col}
               </button>
