@@ -3,38 +3,19 @@ export interface CursorData {
   name: string;
   image: string;
   imageId: string;
-  category: CursorCategory;
-  color: CursorColor;
+  category: string;
+  color: string;
   creator: string;
 }
 
-export type CursorCategory = "Dot" | "Cross" | "Circle" | "Misc";
+export type CursorCategory = string;
 
-export const CATEGORIES: CursorCategory[] = ["Dot", "Cross", "Circle", "Misc"];
+export const CATEGORIES: string[] = ["dot", "circle", "misc", "crosshair"];
 
-export type CursorColor =
-  | "Green"
-  | "White"
-  | "Red"
-  | "Yellow"
-  | "Purple"
-  | "Blue"
-  | "Pink"
-  | "Black"
-  | "Orange"
-  | "Brown";
+export type CursorColor = string;
 
-export const COLORS: CursorColor[] = [
-  "Green",
-  "White",
-  "Red",
-  "Yellow",
-  "Purple",
-  "Blue",
-  "Pink",
-  "Black",
-  "Orange",
-  "Brown",
+export const COLORS: string[] = [
+  "white", "green", "purple", "pink", "red", "yellow", "blue", "orange", "brown", "black"
 ];
 
 export const cursors: CursorData[] = [];

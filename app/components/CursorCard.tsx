@@ -11,25 +11,29 @@ interface CursorCardProps {
 }
 
 const colorGradients: Record<string, string> = {
-  Green: "from-emerald-400 to-green-500",
-  White: "from-slate-300 to-white",
-  Red: "from-red-400 to-rose-500",
-  Yellow: "from-amber-400 to-yellow-500",
-  Purple: "from-violet-400 to-purple-500",
-  Blue: "from-indigo-400 to-blue-500",
-  Pink: "from-pink-400 to-rose-500",
-  Black: "from-zinc-400 to-zinc-600",
+  green: "from-emerald-400 to-green-500",
+  white: "from-slate-300 to-white",
+  red: "from-red-400 to-rose-500",
+  yellow: "from-amber-400 to-yellow-500",
+  purple: "from-violet-400 to-purple-500",
+  blue: "from-indigo-400 to-blue-500",
+  pink: "from-pink-400 to-rose-500",
+  black: "from-zinc-400 to-zinc-600",
+  orange: "from-orange-400 to-orange-500",
+  brown: "from-amber-700 to-amber-900"
 };
 
 const colorBgClasses: Record<string, string> = {
-  Green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-  White: "bg-white/10 text-slate-100 border-white/20",
-  Red: "bg-red-500/10 text-red-400 border-red-500/20",
-  Yellow: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  Purple: "bg-violet-500/10 text-violet-400 border-violet-500/20",
-  Blue: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
-  Pink: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-  Black: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
+  green: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  white: "bg-white/10 text-slate-100 border-white/20",
+  red: "bg-red-500/10 text-red-400 border-red-500/20",
+  yellow: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+  purple: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+  blue: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+  pink: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+  black: "bg-zinc-500/10 text-zinc-400 border-zinc-500/20",
+  orange: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  brown: "bg-amber-500/10 text-amber-700 border-amber-700/20"
 };
 
 export default function CursorCard({
@@ -39,8 +43,11 @@ export default function CursorCard({
   index,
 }: CursorCardProps) {
   const [copied, setCopied] = useState(false);
-  const gradientClass = colorGradients[cursor.color] || "from-gray-400 to-gray-500";
-  const badgeClass = colorBgClasses[cursor.color] || "bg-gray-500/10 text-gray-400 border-gray-500/20";
+  
+  // Karena warna bisa kombinasi (cth: 'green purple'), kita ambil kata pertama sebagai warna utama untuk UI
+  const primaryColor = cursor.color.split(' ')[0] || '';
+  const gradientClass = colorGradients[primaryColor] || "from-gray-400 to-gray-500";
+  const badgeClass = colorBgClasses[primaryColor] || "bg-gray-500/10 text-gray-400 border-gray-500/20";
 
   const copyAssetId = () => {
     navigator.clipboard.writeText(cursor.imageId);
@@ -112,7 +119,7 @@ export default function CursorCard({
 
           <div className="flex items-center justify-between gap-2">
             <span
-              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${badgeClass}`}
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border capitalize ${badgeClass}`}
             >
               {cursor.category}
             </span>

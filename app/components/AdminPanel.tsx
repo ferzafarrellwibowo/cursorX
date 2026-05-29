@@ -322,7 +322,7 @@ export default function AdminPanel({
                       }}
                     >
                       {CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat} className="bg-[#12121a]">
+                        <option key={cat} value={cat} className="bg-[#12121a] capitalize">
                           {cat}
                         </option>
                       ))}
@@ -346,7 +346,7 @@ export default function AdminPanel({
                       }}
                     >
                       {COLORS.map((col) => (
-                        <option key={col} value={col} className="bg-[#12121a]">
+                        <option key={col} value={col} className="bg-[#12121a] capitalize">
                           {col}
                         </option>
                       ))}

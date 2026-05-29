@@ -94,7 +94,7 @@ export default function SearchBar({
               <button
                 key={cat}
                 onClick={() => onCategoryChange(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 capitalize ${
                   selectedCategory === cat
                     ? "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20"
                     : "bg-white/[0.04] text-white/40 border border-white/[0.06] hover:bg-white/[0.08] hover:text-white/60"
@@ -163,18 +163,18 @@ export default function SearchBar({
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ring-1 ring-white/10 ${
-                  col === 'Green' ? 'bg-emerald-400' :
-                  col === 'White' ? 'bg-white' :
-                  col === 'Red' ? 'bg-rose-500' :
-                  col === 'Yellow' ? 'bg-amber-400' :
-                  col === 'Purple' ? 'bg-violet-500' :
-                  col === 'Blue' ? 'bg-indigo-400' :
-                  col === 'Pink' ? 'bg-pink-400' :
-                  col === 'Black' ? 'bg-black' :
-                  col === 'Orange' ? 'bg-orange-400' :
-                  col === 'Brown' ? 'bg-amber-700' : 'bg-transparent'
+                  col === 'green' ? 'bg-emerald-400' :
+                  col === 'white' ? 'bg-white' :
+                  col === 'red' ? 'bg-rose-500' :
+                  col === 'yellow' ? 'bg-amber-400' :
+                  col === 'purple' ? 'bg-violet-500' :
+                  col === 'blue' ? 'bg-indigo-400' :
+                  col === 'pink' ? 'bg-pink-400' :
+                  col === 'black' ? 'bg-black' :
+                  col === 'orange' ? 'bg-orange-400' :
+                  col === 'brown' ? 'bg-amber-700' : 'bg-transparent'
                 }`} />
-                {col}
+                <span className="capitalize">{col}</span>
               </button>
             );
           })}

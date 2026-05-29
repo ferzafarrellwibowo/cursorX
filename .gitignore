@@ -34,6 +34,7 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+.env.example
 
 # Ensure example env files are tracked but real envs are ignored
 # .env.example should be committed to document required keys

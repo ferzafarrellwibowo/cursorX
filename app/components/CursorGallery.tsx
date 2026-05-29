@@ -32,9 +32,10 @@ export default function CursorGallery({ cursors, isLoaded: dataLoaded = false }:
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
       const matchesCategory =
-        selectedCategory === "All" || cursor.category === selectedCategory;
+        selectedCategory === "All" || cursor.category.toLowerCase() === selectedCategory.toLowerCase();
+      // Handle multi-colors (e.g. 'green purple') by checking array inclusions
       const matchesColor = 
-        selectedColor === "All" || cursor.color === selectedColor;
+        selectedColor === "All" || cursor.color.toLowerCase().includes(selectedColor.toLowerCase());
       const matchesFavorite = !showFavoritesOnly || isFavorite(cursor.id);
       return matchesSearch && matchesCategory && matchesColor && matchesFavorite;
     });
