@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "cursorX — Roblox Cursor Library",
+  title: "cursorX",
   description:
     "Discover and collect custom Roblox cursors. Browse our curated collection, preview in real-time, and copy asset IDs instantly for your Roblox games.",
   keywords: [
