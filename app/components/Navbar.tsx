@@ -51,10 +51,11 @@ export default function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setIsCalculatorOpen(true)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-white/70 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15] transition-all duration-300"
+                className="group relative flex items-center gap-2 px-1 py-2 text-xs sm:text-sm font-medium text-white/70 hover:text-white transition-colors duration-300"
               >
                 <span className="hidden sm:inline">eDPI Calculator</span>
                 <span className="sm:hidden">eDPI</span>
+                <span className="absolute bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-transform duration-300 group-hover:scale-x-100" />
               </button>
 
               {/* Feedback Button */}
