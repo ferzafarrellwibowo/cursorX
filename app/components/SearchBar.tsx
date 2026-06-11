@@ -12,6 +12,7 @@ interface SearchBarProps {
   showFavoritesOnly: boolean;
   onToggleFavorites: () => void;
   resultCount: number;
+  onAddClick: () => void;
 }
 
 export default function SearchBar({
@@ -24,40 +25,16 @@ export default function SearchBar({
   showFavoritesOnly,
   onToggleFavorites,
   resultCount,
+  onAddClick,
 }: SearchBarProps) {
   return (
     <div className="space-y-4 sm:space-y-5">
-      {/* Search Input */}
-      <div className="relative max-w-xl mx-auto">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <svg
-            className="w-5 h-5 text-white/30"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-        <input
-          type="text"
-          placeholder="Search cursors..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.06] focus:ring-1 focus:ring-violet-500/20 transition-all duration-300 text-sm"
-        />
-        {searchQuery && (
-          <button
-            onClick={() => onSearchChange("")}
-            className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/30 hover:text-white/60 transition-colors"
-          >
+      {/* Search Input & Add Button */}
+      <div className="flex items-center gap-3 max-w-xl mx-auto">
+        <div className="relative flex-1">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg
-              className="w-4 h-4"
+              className="w-5 h-5 text-white/30"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -66,11 +43,55 @@ export default function SearchBar({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
-          </button>
-        )}
+          </div>
+          <input
+            type="text"
+            placeholder="Search cursors..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-white/30 focus:outline-none focus:border-violet-500/50 focus:bg-white/[0.06] focus:ring-1 focus:ring-violet-500/20 transition-all duration-300 text-sm"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => onSearchChange("")}
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-white/30 hover:text-white/60 transition-colors"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+        
+        {/* Add Button */}
+        <button
+          onClick={onAddClick}
+          className="p-3.5 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-500/20 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center shrink-0 group"
+          title="Submit your cursor"
+        >
+          <svg 
+            className="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor" 
+            strokeWidth={3}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+        </button>
       </div>
 
       {/* Filters Row */}

@@ -51,12 +51,12 @@ export default function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3">
               <button
                 onClick={() => setIsCalculatorOpen(true)}
-                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-white/70 bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:text-white hover:border-white/[0.15] transition-all duration-300"
+                className="group relative px-1 py-2 text-xs sm:text-sm font-bold tracking-tight text-white/50 hover:text-white transition-all duration-300"
               >
-                <span className="hidden sm:inline">eDPI Calculator</span>
-                <span className="sm:hidden">eDPI</span>
+                eDPI <span className="hidden sm:inline">Calculator</span>
+                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-300 group-hover:w-full rounded-full" />
               </button>
-
+              <div className="h-4 w-[1px] bg-white/10 mx-1 sm:mx-2" />
               {/* Feedback Button */}
               <button
                 onClick={() => setIsFeedbackOpen(true)}

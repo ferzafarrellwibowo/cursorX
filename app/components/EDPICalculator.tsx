@@ -112,7 +112,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
       <div className="relative w-full max-w-lg animate-modalIn">
         <div className="relative rounded-3xl overflow-hidden bg-[#12121a] border border-white/[0.08] shadow-2xl">
           {/* Header */}
-          <div className="border-b border-white/[0.06] p-6 bg-gradient-to-r from-violet-600/5 to-fuchsia-600/5">
+          <div className="border-b border-white/[0.04] p-6 bg-white/[0.01]">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-white">eDPI Calculator</h2>
@@ -179,15 +179,15 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                     <h4 className="text-sm font-semibold text-white">How to find Cursor Speed</h4>
                     <div className="space-y-2 text-xs text-white/50">
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">1.</span>
+                        <span className="text-white/60 font-bold">1.</span>
                         Open <span className="text-white/70 font-medium">Windows Settings</span>
                       </p>
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">2.</span>
+                        <span className="text-white/60 font-bold">2.</span>
                         Go to <span className="text-white/70 font-medium">Bluetooth & devices</span> → <span className="text-white/70 font-medium">Mouse</span>
                       </p>
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">3.</span>
+                        <span className="text-white/60 font-bold">3.</span>
                         Find <span className="text-white/70 font-medium">Mouse pointer speed</span> slider
                       </p>
                     </div>
@@ -207,15 +207,15 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                     <h4 className="text-sm font-semibold text-white">How to find Windows Sensitivity</h4>
                     <div className="space-y-2 text-xs text-white/50">
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">1.</span>
+                        <span className="text-white/60 font-bold">1.</span>
                         Press <span className="text-white/70 font-medium px-1.5 py-0.5 bg-white/10 rounded">Win + R</span> and type <span className="text-white/70 font-medium px-1.5 py-0.5 bg-white/10 rounded font-mono">main.cpl</span>
                       </p>
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">2.</span>
+                        <span className="text-white/60 font-bold">2.</span>
                         Go to <span className="text-white/70 font-medium">Pointer Options</span> tab
                       </p>
                       <p className="flex items-start gap-2">
-                        <span className="text-violet-400 font-bold">3.</span>
+                        <span className="text-white/60 font-bold">3.</span>
                         Find <span className="text-white/70 font-medium">Select a pointer speed</span> slider in Motion section
                       </p>
                     </div>
@@ -253,7 +253,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
               <div>
                 <label className="block text-xs font-medium text-white/40 mb-2 uppercase tracking-wider">
                   Cursor Speed ({cursorSpeed}/20)
-                  <span className="ml-2 text-violet-400">
+                  <span className="ml-2 text-white/60">
                     Multiplier: {CURSOR_SPEED_MULTIPLIERS[cursorSpeed]}x
                   </span>
                 </label>
@@ -267,7 +267,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                 />
                 <div className="flex justify-between text-[10px] text-white/30 mt-1">
                   <span>1</span>
-                  <span className={cursorSpeed === 10 ? "text-violet-400 font-medium" : ""}>10 (Default)</span>
+                  <span className={cursorSpeed === 10 ? "text-white font-medium" : ""}>10 (Default)</span>
                   <span>20</span>
                 </div>
               </div>
@@ -275,7 +275,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
               <div>
                 <label className="block text-xs font-medium text-white/40 mb-2 uppercase tracking-wider">
                   Windows Sensitivity ({windowsSensitivity}/11)
-                  <span className="ml-2 text-violet-400">
+                  <span className="ml-2 text-white/60">
                     Multiplier: {WINDOWS_SENSITIVITY_MULTIPLIERS[windowsSensitivity]}x
                   </span>
                 </label>
@@ -289,18 +289,18 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                 />
                 <div className="flex justify-between text-[10px] text-white/30 mt-1">
                   <span>1</span>
-                  <span className={windowsSensitivity === 6 ? "text-violet-400 font-medium" : ""}>6 (Default)</span>
+                  <span className={windowsSensitivity === 6 ? "text-white font-medium" : ""}>6 (Default)</span>
                   <span>11</span>
                 </div>
               </div>
             )}
 
             {/* Result */}
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-violet-500/10 to-fuchsia-600/10 border border-violet-500/20">
+            <div className="p-6 rounded-2xl bg-violet-600/5 border border-violet-500/20">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs text-white/40 uppercase tracking-wider mb-1">Your eDPI</p>
-                  <p className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+                  <p className="text-xs text-violet-400/60 uppercase tracking-wider mb-1">Your eDPI</p>
+                  <p className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-fuchsia-400">
                     {calculateEDPI()}
                   </p>
                 </div>
@@ -331,7 +331,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                         key={speed}
                         className={`flex justify-between py-0.5 px-1 rounded ${
                           parseInt(speed) === cursorSpeed && calculationType === "cursor"
-                            ? "bg-violet-500/20 text-violet-300"
+                            ? "bg-white/10 text-white"
                             : "text-white/40"
                         }`}
                       >
@@ -350,7 +350,7 @@ export default function EDPICalculator({ isOpen, onClose }: EDPICalculatorProps)
                         key={sens}
                         className={`flex justify-between py-0.5 px-1 rounded ${
                           parseInt(sens) === windowsSensitivity && calculationType === "windows"
-                            ? "bg-violet-500/20 text-violet-300"
+                            ? "bg-white/10 text-white"
                             : "text-white/40"
                         }`}
                       >

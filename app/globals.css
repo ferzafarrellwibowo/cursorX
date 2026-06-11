@@ -109,6 +109,17 @@ body {
   }
 }
 
+@keyframes neon-blink {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.8)) drop-shadow(0 0 20px rgba(139, 92, 246, 0.4));
+  }
+  20%, 24%, 55% {
+    opacity: 0.5;
+    filter: none;
+  }
+}
+
 /* ──────────────────────────────────────
    Animation Utility Classes
    ────────────────────────────────────── */
@@ -136,4 +147,8 @@ body {
 
 @utility animate-shimmer {
   animation: shimmer 2s infinite;
+}
+
+@utility animate-neon-blink {
+  animation: neon-blink 3s infinite;
 }

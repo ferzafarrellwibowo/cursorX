@@ -6,6 +6,7 @@ import { useFavorites } from "../hooks/useFavorites";
 import SearchBar from "./SearchBar";
 import CursorCard from "./CursorCard";
 import SkeletonCard from "./SkeletonCard";
+import SubmitCursorModal from "./SubmitCursorModal";
 
 interface CursorGalleryProps {
   cursors: CursorData[];
@@ -21,6 +22,7 @@ export default function CursorGallery({ cursors, isLoaded: dataLoaded = false }:
     CursorColor | "All"
   >("All");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
   const [visibleCount, setVisibleCount] = useState(24);
 
@@ -84,6 +86,7 @@ export default function CursorGallery({ cursors, isLoaded: dataLoaded = false }:
             showFavoritesOnly={showFavoritesOnly}
             onToggleFavorites={() => setShowFavoritesOnly((p) => !p)}
             resultCount={filteredCursors.length}
+            onAddClick={() => setIsSubmitModalOpen(true)}
           />
         </div>
 
@@ -143,6 +146,11 @@ export default function CursorGallery({ cursors, isLoaded: dataLoaded = false }:
           </>
         )}
       </div>
+
+      <SubmitCursorModal
+        isOpen={isSubmitModalOpen}
+        onClose={() => setIsSubmitModalOpen(false)}
+      />
     </section>
   );
 }

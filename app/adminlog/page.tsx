@@ -1,18 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import AdminLoginModal from "../components/AdminLoginModal";
 import AdminPanel from "../components/AdminPanel";
 import { useAdmin } from "../hooks/useAdmin";
 import { useCursorStore } from "../hooks/useCursorStore";
+import { supabase } from "../utils/supabase";
+
+interface PendingSubmission {
+  id: string;
+  asset_id: string;
+  created_at: string;
+}
 
 export default function AdminPage() {
   const router = useRouter();
   const { isLoggedIn, login, logout, isLoaded } = useAdmin();
   const { customCursors, addCursor, deleteCursor } = useCursorStore();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [pendingSubmissions, setPendingSubmissions] = useState<PendingSubmission[]>([]);
+  const [isLoadingSubmissions, setIsLoadingSubmissions] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchSubmissions();
+    }
+  }, [isLoggedIn]);
+
+  const fetchSubmissions = async () => {
+    if (!supabase) return;
+    setIsLoadingSubmissions(true);
+    try {
+      const { data, error } = await supabase
+        .from("cursor_submissions")
+        .select("id, asset_id, created_at")
+        .eq("status", "pending")
+        .order("created_at", { ascending: false });
+
+      if (!error && data) {
+        setPendingSubmissions(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch submissions", err);
+    } finally {
+      setIsLoadingSubmissions(false);
+    }
+  };
 
   const handleLoginSuccess = async (username: string, password: string) => {
     return await login(username, password);
@@ -108,9 +143,78 @@ export default function AdminPage() {
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                   </svg>
-                  Open Admin Panel
+                  Add Cursor
                 </span>
               </button>
+            </div>
+
+            {/* Notifications Section */}
+            <div className="w-full mx-auto mt-8 bg-white/[0.02] border border-white/[0.05] rounded-3xl p-6 text-left">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  Pending Submissions
+                  {pendingSubmissions.length > 0 && (
+                    <span className="bg-violet-500/20 text-violet-400 text-xs px-2 py-0.5 rounded-full">
+                      {pendingSubmissions.length}
+                    </span>
+                  )}
+                </h2>
+                <button onClick={fetchSubmissions} className="p-2 text-white/40 hover:text-white/80 transition-colors" title="Refresh">
+                  <svg className={`w-4 h-4 ${isLoadingSubmissions ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </button>
+              </div>
+
+              {isLoadingSubmissions ? (
+                <div className="flex justify-center py-8">
+                   <svg className="w-6 h-6 animate-spin text-white/20" fill="none" viewBox="0 0 24 24">
+                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                   </svg>
+                </div>
+              ) : pendingSubmissions.length === 0 ? (
+                <p className="text-white/30 text-sm text-center py-6">No pending cursor submissions.</p>
+              ) : (
+                <div className="space-y-3">
+                  {pendingSubmissions.map((sub) => (
+                    <a
+                      key={sub.id}
+                      href={`https://create.roblox.com/store/asset/${sub.asset_id}/Cursor`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-violet-500/30 transition-all group"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                             <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                             </svg>
+                          </div>
+                          <div className="text-left">
+                            <p className="text-sm font-medium text-white group-hover:text-violet-300 transition-colors">
+                              Asset ID: <span className="font-mono">{sub.asset_id}</span>
+                            </p>
+                            <p className="text-xs text-white/30 mt-0.5">
+                              Submitted {new Date(sub.created_at).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 text-violet-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                          Review
+                          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

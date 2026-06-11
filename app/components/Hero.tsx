@@ -143,7 +143,7 @@ export default function Hero({ cursors = [] }: HeroProps) {
           <SplitText
             as="span"
             text="X"
-            className="bg-gradient-to-br from-violet-400 via-fuchsia-400 to-purple-400 bg-clip-text text-transparent pb-3"
+            className="bg-gradient-to-br from-violet-400 via-fuchsia-400 to-purple-400 bg-clip-text text-transparent pb-3 animate-neon-blink"
             splitBy="chars"
             stagger={0.05}
             duration={0.7}

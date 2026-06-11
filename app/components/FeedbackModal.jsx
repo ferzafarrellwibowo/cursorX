@@ -105,7 +105,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
       <div className="relative w-full max-w-md animate-modalIn">
         <div className="relative rounded-3xl overflow-hidden bg-[#12121a] border border-white/[0.08] shadow-2xl">
           {/* Header */}
-          <div className="border-b border-white/[0.06] p-5 bg-gradient-to-r from-violet-600/5 to-fuchsia-600/5">
+          <div className="border-b border-white/[0.04] p-5 bg-white/[0.01]">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold text-white">Send Feedback</h2>
@@ -189,7 +189,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
             <button
               type="submit"
               disabled={isSubmitting || !text.trim() || isOverLimit}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-sm font-semibold hover:from-violet-500 hover:to-fuchsia-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
