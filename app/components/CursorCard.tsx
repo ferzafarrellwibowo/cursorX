@@ -95,9 +95,9 @@ export default function CursorCard({
         </button>
 
         {/* Cursor Preview */}
-        <div className="relative aspect-square flex items-center justify-center p-8">
+        <div className="relative aspect-square flex items-center justify-center p-6 sm:p-8">
           <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
-          <div className="relative w-20 h-20 sm:w-24 sm:h-24 group-hover:scale-110 transition-transform duration-300 ease-out will-change-transform">
+          <div className="relative w-16 h-16 sm:w-24 sm:h-24 group-hover:scale-110 transition-transform duration-300 ease-out will-change-transform">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={cursor.image}
@@ -117,7 +117,7 @@ export default function CursorCard({
             <p className="text-xs text-white/30 mt-0.5">by {cursor.creator}</p>
           </div>
 
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap mt-1 sm:mt-0">
             <span
               className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium border capitalize ${badgeClass}`}
             >
@@ -126,7 +126,7 @@ export default function CursorCard({
 
             <button
               onClick={copyAssetId}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 ${
+              className={`flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 ${
                 copied
                   ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
                   : "bg-violet-500/15 text-violet-300 border border-violet-500/25 hover:bg-violet-500/25 hover:text-violet-200"

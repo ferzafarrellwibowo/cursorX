@@ -123,15 +123,15 @@ export default function Hero({ cursors = [] }: HeroProps) {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-8 animate-fadeInUp">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-sm text-white/60">
+        <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 sm:mb-8 animate-fadeInUp">
+          <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="text-[10px] sm:text-sm text-white/60">
             Open Source Roblox Cursor Library
           </span>
         </div>
 
         {/* Title */}
-        <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-6 flex flex-wrap justify-center items-end animate-fadeInUp [animation-delay:0.1s]">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight mb-6 flex flex-wrap justify-center items-end animate-fadeInUp [animation-delay:0.1s]">
           <SplitText
             as="span"
             text="cursor"
@@ -190,7 +190,7 @@ export default function Hero({ cursors = [] }: HeroProps) {
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-8 sm:gap-12 mt-16 animate-fadeInUp [animation-delay:0.5s]">
+        <div className="flex items-center justify-center gap-3 sm:gap-12 mt-12 sm:mt-16 animate-fadeInUp [animation-delay:0.5s]">
           <div className="text-center w-24">
             <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
               {animatedCursorsCount}
@@ -231,7 +231,7 @@ export default function Hero({ cursors = [] }: HeroProps) {
             </span>
           </p>
 
-          <div className="flex items-center justify-center gap-10 text-white/30">
+          <div className="flex items-center justify-center gap-6 sm:gap-10 text-white/30">
             {/* Roblox Link */}
             <a
               href="https://www.roblox.com/users/4698580085/profile"

@@ -4,8 +4,8 @@ export default function SkeletonCard() {
   return (
     <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] overflow-hidden animate-pulse">
       {/* Image skeleton */}
-      <div className="aspect-square flex items-center justify-center p-8">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/[0.04]" />
+      <div className="aspect-square flex items-center justify-center p-6 sm:p-8">
+        <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-2xl bg-white/[0.04]" />
       </div>
 
       {/* Info skeleton */}
