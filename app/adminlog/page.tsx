@@ -63,7 +63,10 @@ export default function AdminPage() {
     if (!reviewingSubmission || !supabase) return;
     
     // Add to main database
-    await addCursor(cursorData);
+    const newCursor = await addCursor(cursorData);
+    if (!newCursor) {
+      throw new Error("Gagal menambahkan kursor ke database utama (kemungkinan ada kolom yang belum dibuat di Supabase, misal 'textureId' atau 'texture_id'). Silakan periksa console browser.");
+    }
 
     // Update submission status
     const { error } = await supabase

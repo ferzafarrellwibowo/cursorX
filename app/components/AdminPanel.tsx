@@ -106,17 +106,22 @@ export default function AdminPanel({
 
     await new Promise((r) => setTimeout(r, 500));
 
-    onAddCursor({
+    const newCursor = await onAddCursor({
       name,
       image: imageId,
-      imageId: imageId,
-      textureId,
+      imageId: textureId,
       category,
       color,
       creator: creator || "Admin",
     });
 
     setIsSubmitting(false);
+
+    if (!newCursor) {
+      setErrorMessage("Gagal menyimpan ke database. Periksa console untuk detail error.");
+      return;
+    }
+
     setSuccessMessage(`"${name}" has been added successfully!`);
     resetForm();
 

@@ -98,8 +98,7 @@ export default function ReviewModal({
       await onAccept({
         name,
         image: imageId,
-        imageId: imageId,
-        textureId,
+        imageId: textureId,
         category,
         color,
         creator: creator || "Unknown",

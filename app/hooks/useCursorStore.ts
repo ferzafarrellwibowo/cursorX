@@ -107,14 +107,15 @@ export function useCursorStore() {
     }
 
     try {
-      // Send to Supabase
-      const { data, error } = await supabase
-        .from("cursors")
-        .insert([cursor])
-        .select()
-        .single();
+      // Send to internal API to bypass RLS
+      const res = await fetch("/api/admin/cursors", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cursor),
+      });
 
-      if (error) throw error;
+      const { success, data, error } = await res.json();
+      if (!success) throw new Error(error || "Failed to insert cursor");
 
       // Replace the temporary cursor with the real one from the database
       if (data) {
@@ -155,8 +156,11 @@ export function useCursorStore() {
       }
 
       try {
-        const { error } = await supabase.from("cursors").delete().eq("id", id);
-        if (error) throw error;
+        const res = await fetch(`/api/admin/cursors?id=${id}`, {
+          method: "DELETE",
+        });
+        const { success, error } = await res.json();
+        if (!success) throw new Error(error || "Failed to delete cursor");
       } catch (error: unknown) {
         const message = error instanceof Error ? error.message : String(error);
         console.error("Error deleting cursor from Supabase:", message);

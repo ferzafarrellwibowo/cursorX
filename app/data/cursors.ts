@@ -3,7 +3,6 @@ export interface CursorData {
   name: string;
   image: string;
   imageId: string;
-  textureId: string;
   category: string;
   color: string;
   creator: string;
