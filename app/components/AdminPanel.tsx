@@ -27,6 +27,7 @@ export default function AdminPanel({
   const [imageUrl, setImageUrl] = useState("");
   const [fileName, setFileName] = useState("");
   const [imageId, setImageId] = useState("");
+  const [textureId, setTextureId] = useState("");
   const [category, setCategory] = useState<CursorCategory>("Circle");
   const [color, setColor] = useState<CursorColor>("White");
   const [creator, setCreator] = useState("");
@@ -61,6 +62,7 @@ export default function AdminPanel({
     setImageUrl("");
     setFileName("");
     setImageId("");
+    setTextureId("");
     setCategory("Circle");
     setColor("White");
     setCreator("");
@@ -77,7 +79,7 @@ export default function AdminPanel({
   // Validate Asset ID on blur
   const handleAssetIdBlur = () => {
     if (imageId && !imageId.startsWith('data:image/')) {
-      setErrorMessage("Image ID must be a valid Base64 image link (e.g. data:image/png;base64,...).");
+      setErrorMessage("Image Link must be a valid Base64 image link (e.g. data:image/png;base64,...).");
     } else if (imageId && isAssetIdDuplicate(imageId)) {
       setErrorMessage("This Base64 image already exists.");
     } else {
@@ -89,7 +91,7 @@ export default function AdminPanel({
     e.preventDefault();
 
     if (!imageId.startsWith('data:image/')) {
-      setErrorMessage("Image ID must be a valid Base64 image link.");
+      setErrorMessage("Image Link must be a valid Base64 image link.");
       return;
     }
 
@@ -108,6 +110,7 @@ export default function AdminPanel({
       name,
       image: imageId,
       imageId: imageId,
+      textureId,
       category,
       color,
       creator: creator || "Admin",
@@ -215,10 +218,10 @@ export default function AdminPanel({
                 </div>
 
 
-                {/* Image ID */}
+                {/* Image Link */}
                 <div>
                   <label className="block text-xs font-medium text-white/40 mb-2 uppercase tracking-wider">
-                    Image ID (Base64) <span className="text-red-400">*</span>
+                    Image Link (Base64) <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -235,6 +238,21 @@ export default function AdminPanel({
                         ? "border-red-500/50 focus:border-red-500/50 focus:ring-red-500/20"
                         : "border-white/[0.08] focus:border-violet-500/50 focus:ring-violet-500/20"
                     }`}
+                  />
+                </div>
+
+                {/* Texture ID */}
+                <div>
+                  <label className="block text-xs font-medium text-white/40 mb-2 uppercase tracking-wider">
+                    Texture ID <span className="text-red-400">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={textureId}
+                    onChange={(e) => setTextureId(e.target.value)}
+                    placeholder="e.g. 12345678"
+                    required
+                    className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white placeholder-white/20 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/20 transition-all duration-300 text-sm"
                   />
                 </div>
 
@@ -343,7 +361,7 @@ export default function AdminPanel({
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !name || !imageId || !!errorMessage}
+                  disabled={isSubmitting || !name || !imageId || !textureId || !!errorMessage}
                   className="w-full py-3 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (

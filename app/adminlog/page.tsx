@@ -9,10 +9,13 @@ import { useAdmin } from "../hooks/useAdmin";
 import { useCursorStore } from "../hooks/useCursorStore";
 import { supabase } from "../utils/supabase";
 
+import ReviewModal from "../components/ReviewModal";
+
 interface PendingSubmission {
   id: string;
   asset_id: string;
   created_at: string;
+  image_base64?: string;
 }
 
 export default function AdminPage() {
@@ -22,6 +25,8 @@ export default function AdminPage() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [pendingSubmissions, setPendingSubmissions] = useState<PendingSubmission[]>([]);
   const [isLoadingSubmissions, setIsLoadingSubmissions] = useState(false);
+  const [reviewingSubmission, setReviewingSubmission] = useState<PendingSubmission | null>(null);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -35,7 +40,7 @@ export default function AdminPage() {
     try {
       const { data, error } = await supabase
         .from("cursor_submissions")
-        .select("id, asset_id, created_at")
+        .select("id, asset_id, created_at, image_base64")
         .eq("status", "pending")
         .order("created_at", { ascending: false });
 
@@ -47,6 +52,50 @@ export default function AdminPage() {
     } finally {
       setIsLoadingSubmissions(false);
     }
+  };
+
+  const handleReviewClick = (sub: PendingSubmission) => {
+    setReviewingSubmission(sub);
+    setIsReviewModalOpen(true);
+  };
+
+  const handleAcceptSubmission = async (cursorData: Omit<any, "id">) => {
+    if (!reviewingSubmission || !supabase) return;
+    
+    // Add to main database
+    await addCursor(cursorData);
+
+    // Update submission status
+    const { error } = await supabase
+      .from("cursor_submissions")
+      .update({ status: "accepted" })
+      .eq("id", reviewingSubmission.id);
+
+    if (error) {
+      console.error("Failed to update submission status", error);
+      throw error;
+    }
+
+    // Refresh list
+    fetchSubmissions();
+  };
+
+  const handleRejectSubmission = async () => {
+    if (!reviewingSubmission || !supabase) return;
+
+    // Update submission status
+    const { error } = await supabase
+      .from("cursor_submissions")
+      .update({ status: "rejected" })
+      .eq("id", reviewingSubmission.id);
+
+    if (error) {
+      console.error("Failed to update submission status", error);
+      throw error;
+    }
+
+    // Refresh list
+    fetchSubmissions();
   };
 
   const handleLoginSuccess = async (username: string, password: string) => {
@@ -181,37 +230,49 @@ export default function AdminPage() {
               ) : (
                 <div className="space-y-3">
                   {pendingSubmissions.map((sub) => (
-                    <a
+                    <div
                       key={sub.id}
-                      href={`https://create.roblox.com/store/asset/${sub.asset_id}/Cursor`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-violet-500/30 transition-all group"
+                      className="w-full p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-violet-500/30 transition-all group flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
                     >
-                      <div className="flex justify-between items-center">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
-                             <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                             </svg>
-                          </div>
-                          <div className="text-left">
-                            <p className="text-sm font-medium text-white group-hover:text-violet-300 transition-colors">
-                              Asset ID: <span className="font-mono">{sub.asset_id}</span>
-                            </p>
-                            <p className="text-xs text-white/30 mt-0.5">
-                              Submitted {new Date(sub.created_at).toLocaleString()}
-                            </p>
-                          </div>
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-violet-500/10 flex items-center justify-center">
+                           <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                           </svg>
                         </div>
-                        <div className="flex items-center gap-2 text-violet-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                          Review
-                          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
+                        <div className="text-left">
+                          <p className="text-sm font-medium text-white group-hover:text-violet-300 transition-colors">
+                            Asset ID: <span className="font-mono">{sub.asset_id}</span>
+                          </p>
+                          <p className="text-xs text-white/30 mt-0.5">
+                            Submitted {new Date(sub.created_at).toLocaleString()}
+                          </p>
                         </div>
                       </div>
-                    </a>
+                      
+                      <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <a
+                          href={`https://create.roblox.com/store/asset/${sub.asset_id}/Cursor`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 px-4 py-2 rounded-lg text-xs font-medium text-blue-400 bg-blue-500/10 border border-blue-500/20 hover:bg-blue-500/20 transition-all duration-300"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          Review
+                        </a>
+                        <button
+                          onClick={() => handleReviewClick(sub)}
+                          title="Manage"
+                          className="flex items-center justify-center p-2 rounded-lg text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all duration-300"
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}
@@ -227,6 +288,16 @@ export default function AdminPage() {
             onDeleteCursor={deleteCursor}
             customCursors={customCursors}
             onLogout={handleLogout}
+          />
+        )}
+
+        {isLoggedIn && (
+          <ReviewModal
+            isOpen={isReviewModalOpen}
+            submission={reviewingSubmission}
+            onClose={() => setIsReviewModalOpen(false)}
+            onAccept={handleAcceptSubmission}
+            onReject={handleRejectSubmission}
           />
         )}
       </div>
