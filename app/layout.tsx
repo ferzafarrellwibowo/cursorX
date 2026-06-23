@@ -21,17 +21,26 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "cursorX" }],
   openGraph: {
-    title: "cursorX — Roblox Cursor Library",
+    title: "cursorX | Roblox Cursor Library",
     description:
       "Discover and collect custom Roblox cursors. Browse our curated collection, preview in real-time, and copy asset IDs instantly.",
     type: "website",
     siteName: "cursorX",
+    images: [
+      {
+        url: "/icon.svg",
+        width: 512,
+        height: 512,
+        alt: "cursorX Logo",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "cursorX — Roblox Cursor Library",
+    title: "cursorX |  Roblox Cursor Library",
     description:
       "Discover and collect custom Roblox cursors. Browse our curated collection and copy asset IDs instantly.",
+    images: ["/icon.svg"],
   },
 };
 
