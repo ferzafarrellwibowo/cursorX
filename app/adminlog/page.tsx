@@ -27,6 +27,9 @@ export default function AdminPage() {
   const [isLoadingSubmissions, setIsLoadingSubmissions] = useState(false);
   const [reviewingSubmission, setReviewingSubmission] = useState<PendingSubmission | null>(null);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isRejectingAll, setIsRejectingAll] = useState(false);
+
+  const duplicateSubmissions = pendingSubmissions.filter(sub => customCursors.some(c => c.imageId === sub.asset_id));
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -99,6 +102,25 @@ export default function AdminPage() {
 
     // Refresh list
     fetchSubmissions();
+  };
+
+  const handleRejectAllDuplicates = async () => {
+    if (!supabase || duplicateSubmissions.length === 0) return;
+    setIsRejectingAll(true);
+    try {
+      const ids = duplicateSubmissions.map(sub => sub.id);
+      const { error } = await supabase
+        .from("cursor_submissions")
+        .update({ status: "rejected" })
+        .in("id", ids);
+
+      if (error) throw error;
+      fetchSubmissions();
+    } catch (err) {
+      console.error("Failed to reject duplicate submissions", err);
+    } finally {
+      setIsRejectingAll(false);
+    }
   };
 
   const handleLoginSuccess = async (username: string, password: string) => {
@@ -200,11 +222,22 @@ export default function AdminPage() {
                     </span>
                   )}
                 </h2>
-                <button onClick={fetchSubmissions} className="p-2 text-zinc-500 hover:text-zinc-300 transition-colors" title="Refresh">
-                  <svg className={`w-4 h-4 ${isLoadingSubmissions ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                </button>
+                <div className="flex items-center gap-3">
+                  {duplicateSubmissions.length > 0 && (
+                    <button
+                      onClick={handleRejectAllDuplicates}
+                      disabled={isRejectingAll}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                    >
+                      {isRejectingAll ? 'Rejecting...' : `Reject All Duplicates (${duplicateSubmissions.length})`}
+                    </button>
+                  )}
+                  <button onClick={fetchSubmissions} className="p-2 text-zinc-500 hover:text-zinc-300 transition-colors" title="Refresh">
+                    <svg className={`w-4 h-4 ${isLoadingSubmissions ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               {isLoadingSubmissions ? (
@@ -289,6 +322,7 @@ export default function AdminPage() {
             onClose={() => setIsReviewModalOpen(false)}
             onAccept={handleAcceptSubmission}
             onReject={handleRejectSubmission}
+            existingCursors={customCursors}
           />
         )}
       </div>

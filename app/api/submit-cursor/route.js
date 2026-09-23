@@ -94,19 +94,41 @@ export async function POST(request) {
       );
     }
 
-    // 2. Fetch the actual image and convert to Base64
+    // 2. Fetch the actual image and convert to Buffer
     const imageRes = await fetch(imageUrl);
     const arrayBuffer = await imageRes.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    const base64Data = buffer.toString("base64");
-    const dataUri = `data:image/png;base64,${base64Data}`;
+    
+    // Generate unique filename
+    const filename = `${sanitizedAssetId}-${Date.now()}.png`;
+
+    // Upload to Supabase Storage
+    const { data: storageData, error: storageError } = await supabaseAdmin.storage
+      .from("cursors")
+      .upload(filename, buffer, {
+        contentType: "image/png",
+        upsert: false
+      });
+
+    if (storageError) {
+      console.error("Supabase Storage error:", storageError);
+      return NextResponse.json(
+        { error: "Failed to upload image to storage." },
+        { status: 500 }
+      );
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from("cursors")
+      .getPublicUrl(filename);
 
     // 3. Insert into cursor_submissions table
     const { data, error } = await supabaseAdmin
       .from("cursor_submissions")
       .insert({
         asset_id: sanitizedAssetId,
-        image_base64: dataUri,
+        image_base64: publicUrl,
         status: "pending",
         ip_hash: ipHash,
       })

@@ -17,6 +17,7 @@ interface ReviewModalProps {
   onClose: () => void;
   onAccept: (cursor: Omit<CursorData, "id">) => Promise<void>;
   onReject: () => Promise<void>;
+  existingCursors?: CursorData[];
 }
 
 export default function ReviewModal({
@@ -25,6 +26,7 @@ export default function ReviewModal({
   onClose,
   onAccept,
   onReject,
+  existingCursors,
 }: ReviewModalProps) {
   const [name, setName] = useState("");
   const [imageId, setImageId] = useState("");
@@ -36,6 +38,8 @@ export default function ReviewModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const isDuplicate = existingCursors?.some(c => c.imageId === textureId);
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -221,8 +225,16 @@ export default function ReviewModal({
                     value={textureId}
                     onChange={(e) => setTextureId(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-100 focus:border-zinc-700 transition-all duration-300 text-sm focus:outline-none"
+                    className={`w-full px-4 py-3 rounded-xl bg-zinc-900 border ${isDuplicate ? 'border-amber-500/50 text-amber-500 focus:border-amber-500' : 'border-zinc-800 text-zinc-100 focus:border-zinc-700'} transition-all duration-300 text-sm focus:outline-none`}
                   />
+                  {isDuplicate && (
+                    <div className="mt-2 flex items-center gap-1.5 text-xs text-amber-500 bg-amber-500/10 px-3 py-2 rounded-lg border border-amber-500/20">
+                      <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span>A cursor with this Asset ID already exists in the main database. Accepting this may create a duplicate.</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
